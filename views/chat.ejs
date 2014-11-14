@@ -1,0 +1,81 @@
+<% layout('layout/page') -%>
+<% block('title', 'Chat') %>
+
+<div class="jumbotron">
+    <p class="lead">The chat will be here</p>
+
+    <script src="/vendor/socket.io-client/dist/socket.io.js"></script>
+
+    <div id="room">
+        <ul></ul>
+        <form>
+            <input class="form-control" autocomplete="off" autofocus placeholder="Message"/>
+        </form>
+    </div>
+</div>
+
+<script>
+    var form = $("#room form");
+    var ul = $("#room ul");
+    var input = $("#room input");
+
+    var socket = io.connect('', {
+        reconnect: false
+    });
+
+    socket
+        .on('message', function (username, msg) {
+            printMessage(username + "> " + msg);
+        })
+        .on('leave',function(username){
+            printStatus(username + ' leave the chat');
+        })
+        .on('join',function(username){
+            printStatus(username + ' join to the chat');
+        })
+        .on('connect', function () {
+            printStatus('Connected');
+            form.on('submit', sendMessage);
+            input.prop('disabled', false);
+        })
+        .on('disconnect', function () {
+            printStatus('Disconnected');
+            form.off('submit', sendMessage);
+            input.prop('disabled', true);
+                setTimeout(reconnect, 500);
+        })
+        .on('logout',function(){
+            location.href = '/';
+        })
+        .on('error', function () {
+            setTimeout(function(){
+                socket.socket.connect();
+            }, 500);
+        });
+
+    function sendMessage(){
+        var text = input.val();
+        input.val('');
+
+        socket.emit('message', text, function () {
+           printMessage("I> " + text)
+        });
+
+        return false;
+    }
+
+    function reconnect(){
+        socket.once('error', function(){
+            setTimeout(reconnect, 500)
+        });
+        socket.socket.connect();
+    }
+
+    function printStatus(status) {
+        $("<li>").append($("<i>").text(status)).appendTo(ul);
+    }
+
+    function printMessage(msg) {
+        $("<li>", {text: msg}).appendTo(ul);
+    }
+</script>

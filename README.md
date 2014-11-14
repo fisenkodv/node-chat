@@ -1,4 +1,4 @@
-node_chat
+Node.js Chat
 =========
 
-Node.js chat implementaion
+Node.js chat implementation

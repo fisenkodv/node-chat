@@ -1,0 +1,31 @@
+{
+  "name": "node_chat",
+  "version": "0.0.1",
+  "description": "Node.js chat implementation",
+  "private": true,
+  "main": "app.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fisenkodv/node_chat.git"
+  },
+  "author": "Dmitry Fisenko <fisenkodv@yandex.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fisenkodv/node_chat/issues"
+  },
+  "homepage": "https://github.com/fisenkodv/node_chat",
+  "dependencies": {
+    "async": "0.2.9",
+    "connect": "~2.12.0",
+    "connect-mongo": "~0.4.0",
+    "cookie": "~0.1.0",
+    "ejs": "*",
+    "ejs-locals": "1.0.2",
+    "express": "3.4.7",
+    "mongodb": "1.3.23",
+    "mongoose": "3.8.3",
+    "nconf": "0.6.9",
+    "socket.io": "~0.9.16",
+    "winston": "0.7.2"
+  }
+}
